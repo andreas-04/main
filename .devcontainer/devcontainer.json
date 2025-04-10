@@ -1,0 +1,43 @@
+{
+    "name": "K8s Dev Container",
+    "build": {
+      "dockerfile": "Dockerfile",
+      "args": {
+        // Get host's Docker GID first: run 'getent group docker | cut -d: -f3' on host
+        "DOCKER_GID": "127" 
+      }
+    },
+    "mounts": [
+      "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+      "source=${localWorkspaceFolder},target=/workspace,type=bind"
+    ],
+    "remoteUser": "vscode",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "tilt-dev.tilt-vscode",
+          "ms-azuretools.vscode-docker",
+          "redhat.vscode-yaml",
+          "ms-kubernetes-tools.vscode-kubernetes-tools"
+        ],
+        "settings": {
+          "files.exclude": {
+            "**/node_modules": true,
+            "**/.git": true
+          }
+        }
+      }
+    },
+    "features": {
+      "ghcr.io/devcontainers/features/common-utils:2": {
+        "installZsh": true,
+        "username": "vscode",
+        "uid": "1000",
+        "gid": "1000"
+      },
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    // Optional post-create commands
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y curl git",
+    "overrideCommand": false
+  }
