@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: folio-client
+  labels:
+    app: folio-client
+spec:
+  containers:
+    - name: folio-client
+      image: node:18-alpine
+      ports:
+        - containerPort: 3000
+      volumeMounts:
+        - name: app-code
+          mountPath: /usr/src/app
+      workingDir: /usr/src/app
+      command: ["sh", "-c", "npm install && npm run build && npm start"]
+  volumes:
+    - name: app-code
+      hostPath:
+        path: /Users/andreasneacsu/main/folio-client
+        type: Directory
